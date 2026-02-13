@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentine 💖</title>
+  <style>
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:#fff; padding:22px;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.30), rgba(255,105,180,0.55), rgba(120,0,70,0.85));
+      overflow:hidden;
+    }
+    .card{
+      width:min(860px, 100%);
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.10);
+      border-radius:24px;
+      padding:26px 22px 90px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+      position:relative;
+    }
+    h1{
+      margin:0 0 12px;
+      font-size:clamp(32px, 5vw, 64px);
+      letter-spacing:-0.03em;
+      line-height:1.0;
+      font-weight:1000;
+    }
+    p{ margin:0 0 10px; opacity:.9; }
+    #hint{ margin:0; font-size:12px; opacity:.85; }
+
+    .row{
+      position:absolute;
+      left:22px; right:22px; bottom:22px;
+      min-height: 56px;
+    }
+
+    button{
+      cursor:pointer; min-width:200px;
+      padding:13px 16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.12);
+      color:#fff; font-weight:1000;
+      user-select:none;
+      touch-action: manipulation;
+    }
+    button:hover{ background: rgba(255,255,255,0.16); }
+
+    #yes{ position:relative; }
+    #no{
+      position:absolute;
+      right:0;
+      top:0;
+      will-change: transform, left, top;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <h1>Veux-tu être ma Valentine mon p'tit Poulet ? 💘</h1>
+    <p id="hint"></p>
+
+    <div class="row">
+      <button id="yes">Oui </button>
+      <button id="no">Non</button>
+    </div>
+  </div>
+
+  <script>
+    const card   = document.getElementById("card");
+    const btnNo  = document.getElementById("no");
+    const hint   = document.getElementById("hint");
+
+    function moveNoButton() {
+      const padding  = 18;
+      const cardRect = card.getBoundingClientRect();
+      const btnRect  = btnNo.getBoundingClientRect();
+
+      const minX = padding;
+      const maxX = cardRect.width  - btnRect.width  - padding;
+      const minY = padding + 90;
+      const maxY = cardRect.height - btnRect.height - padding;
+
+      const x = Math.max(minX, Math.random() * (maxX - minX) + minX);
+      const y = Math.max(minY, Math.random() * (maxY - minY) + minY);
+
+      btnNo.style.left  = `${x}px`;
+      btnNo.style.top   = `${y}px`;
+      btnNo.style.right = "auto";
+    }
+
+    function rapidFlee() {
+      hint.textContent = "";
+      let count = 0;
+      const bursts   = 10;
+      const interval = 35;
+
+      const timer = setInterval(() => {
+        moveNoButton();
+        count++;
+        if (count >= bursts) clearInterval(timer);
+      }, interval);
+    }
+
+    // Desktop : fuit dès qu'on approche
+    btnNo.addEventListener("mouseover",  rapidFlee);
+    btnNo.addEventListener("focus",      rapidFlee);
+
+    // Mobile : fuit au touch
+    btnNo.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      rapidFlee();
+    }, { passive: false });
+
+    // Si elle arrive à cliquer, on déclenche encore plus fort
+    btnNo.addEventListener("click", (e) => {
+      e.preventDefault();
+      rapidFlee();
+    });
+
+    document.getElementById("yes").onclick = () => window.location.href = "./success.html";
+  </script>
+</body>
+</html>

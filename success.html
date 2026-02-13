@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🎶</title>
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:#fff;
+      overflow:hidden;
+    }
+
+    .bg-photo{
+      position:fixed;
+      inset:0;
+      background:url("assets/couple2.JPG") center/cover no-repeat;
+      filter: brightness(0.75);
+      z-index:-4;
+    }
+
+    .veil{
+      position:fixed;
+      inset:0;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.20), rgba(0,0,0,0.55));
+      z-index:-3;
+    }
+
+    .confetti{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:-2;
+    }
+    .piece{
+      position:absolute;
+      top:-30px;
+      opacity:.95;
+      transform: rotate(20deg);
+      animation: fall linear infinite;
+    }
+    @keyframes fall{
+      to { transform: translateY(110vh) rotate(380deg); }
+    }
+
+    .card{
+      position:fixed;
+      right: 36px;
+      bottom: 36px;
+      width: min(520px, calc(100vw - 72px));
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.35);
+      border-radius:22px;
+      padding:20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 18px 70px rgba(0,0,0,0.45);
+      z-index: 5;
+      text-align:left;
+    }
+
+    .msg{
+      margin: 0 0 10px;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+
+    .sub{
+      margin: 0 0 14px;
+      opacity:.9;
+      font-size: 13px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.12);
+      color:#fff;
+      text-decoration:none;
+      font-weight: 950;
+      min-width: 220px;
+      text-align:center;
+      user-select:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,0.16); }
+    .btn:active{ transform: translateY(1px); }
+  </style>
+</head>
+<body>
+  <div class="bg-photo"></div>
+  <div class="veil"></div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <div class="card">
+    <p class="msg">Je t'aime mon Poulet 💖</p>
+    <p class="sub">Bonne Saint-Valentin 🌹</p>
+    <a class="btn" id="music" href="#" target="_blank" rel="noopener">
+      Clique ici 🎶
+    </a>
+  </div>
+
+  <script>
+    const YOUTUBE_URL = "https://youtu.be/o6lAEMoy_DI?si=KpWlmgumQ4KLA5WI";
+    document.getElementById("music").href = YOUTUBE_URL;
+
+    const box  = document.getElementById("confetti");
+    const N    = 70;
+    const rand = (min, max) => Math.random() * (max - min) + min;
+
+    for (let i = 0; i < N; i++) {
+      const d = document.createElement("div");
+      d.className = "piece";
+      d.style.left              = rand(0, 100) + "vw";
+      d.style.animationDuration = rand(3.2, 6.5) + "s";
+      d.style.animationDelay    = rand(0, 2.5) + "s";
+      d.style.width             = rand(6, 12) + "px";
+      d.style.height            = rand(10, 22) + "px";
+      d.style.background        = `hsl(${Math.floor(rand(0, 360))} 90% 70%)`;
+      box.appendChild(d);
+    }
+  </script>
+</body>
+</html>
